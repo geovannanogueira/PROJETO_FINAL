@@ -4,10 +4,10 @@ import {
     View,
     Text,
     TextInput,
-    Image,
-    TouchableOpacity
+    TouchableOpacity,
+    StyleSheet,
+    Image
 } from 'react-native'
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class SignIn extends Component{
 
@@ -53,21 +53,29 @@ export default class SignIn extends Component{
 
     render(){
         return (
-            <View>
+            <View style={styles.tudo}>
                 <Image 
             source={require('../img/vermelho.png')}
             />
-            <Text>Login</Text>
-            <TextInput 
-            placeholder="Email"
-            onChangeText={email => this.setState({email})}
-            value={this.state.email}
-            />
-            <TextInput 
-            placeholder="Senha"
-            onChangeText={senha => this.setState({senha})}
-            value={this.state.senha}
-            />
+            <Text style={styles.login}>Login</Text>
+            <View style={styles.inputs}>
+                <View style={styles.input1}>
+                    <TextInput
+                    style={styles.input1}
+                    placeholder="Email"
+                    onChangeText={email => this.setState({email})}
+                    value={this.state.email}
+                    />
+                </View>
+                <View style={styles.input2}>
+                    <TextInput 
+                    style={styles.input2}
+                    placeholder="Senha"
+                    onChangeText={senha => this.setState({senha})}
+                    value={this.state.senha}
+                    />
+                </View>
+            </View>
             <TouchableOpacity>
                 <Text>Efetuar Login</Text>
             </TouchableOpacity>
@@ -77,5 +85,15 @@ export default class SignIn extends Component{
 }
 
 const styles = StyleSheet.create({
-    
+    tudo: {
+        backgroundColor: '#f0f8ff',
+        height: 700,
+    },
+    login: {
+        textAlign: "center",
+        fontSize: 20
+    },
+    inputs: {
+        alignItems: "center",
+    },
 })
