@@ -1,4 +1,3 @@
-import SignSceen from './pages/signin.js'
 
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
@@ -8,14 +7,25 @@ import {
 } from 'react-navigation';
 
 import { createStackNavigator } from 'react-navigation-stack';
+import SignScreen from './pages/signin.js'
+import LancamentoScreen from './pages/lancamentos'
+
+// criar uma navegacao para lancamentos
 
 const AuthStack = createStackNavigator({
-    Sign: { screen: SignSceen },
+    Sign: { screen: SignScreen },
 });
+
+const NavegacaoL = createBottomTabNavigator({
+    Lancamento: {
+        screen: LancamentoScreen,
+    },
+})
 
 export default createAppContainer(
     createSwitchNavigator(
         {
+            NavegacaoL,
             AuthStack
         },
         {

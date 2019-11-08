@@ -6,7 +6,8 @@ import {
     TextInput,
     TouchableOpacity,
     StyleSheet,
-    Image
+    Image,
+    AsyncStorage
 } from 'react-native'
 
 export default class SignIn extends Component{
@@ -18,13 +19,13 @@ export default class SignIn extends Component{
     constructor() {
         super();
         this.state = {
-            email: "" ,
-            senha: ""
+            email: "erick@gmail.com" ,
+            senha: "123456"
         };
     }
 
     _realizarLogin = async () => {
-        await fetch("http://localhost:5000/api/login", {
+        await fetch("http://192.168.3.14:5000/api/login", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
@@ -43,8 +44,8 @@ export default class SignIn extends Component{
     _irParaHome = async tokenAReceber => {
         if(tokenAReceber != null){
             try {
-                await AsyncStorage.setItem('@roman:token', tokenAReceber);
-                this.props.navigation.navigate("MainNavigation");
+                await AsyncStorage.setItem('@opflix:token', tokenAReceber);
+                this.props.navigation.navigate("NavegacaoL");
             } catch (error) {
                 console.warn(error)
             }
@@ -54,31 +55,38 @@ export default class SignIn extends Component{
     render(){
         return (
             <View style={styles.tudo}>
-                <Image 
-            source={require('../img/vermelho.png')}
-            />
-            <Text style={styles.login}>Login</Text>
-            <View style={styles.inputs}>
-                <View style={styles.input1}>
-                    <TextInput
-                    style={styles.input1}
-                    placeholder="Email"
-                    onChangeText={email => this.setState({email})}
-                    value={this.state.email}
+                <View style={styles.imagemLogo}>
+                    <Image
+                    style={styles.logo}
+                    source={require('../img/vermelho.png')}
                     />
                 </View>
-                <View style={styles.input2}>
-                    <TextInput 
-                    style={styles.input2}
-                    placeholder="Senha"
-                    onChangeText={senha => this.setState({senha})}
-                    value={this.state.senha}
-                    />
+                <View style={styles.viewLogin}>
+                    <Text style={styles.login}>Login</Text>
                 </View>
-            </View>
-            <TouchableOpacity>
-                <Text>Efetuar Login</Text>
-            </TouchableOpacity>
+                <View style={styles.inputs}>
+                    <View style={styles.input1}>
+                        <TextInput
+                        style={styles.email}
+                        placeholder="Email"
+                        onChangeText={email => this.setState({email})}
+                        value={this.state.email}
+                        />
+                    </View>
+                    <View style={styles.input2}>
+                        <TextInput 
+                        style={styles.senha}
+                        placeholder="Senha"
+                        onChangeText={senha => this.setState({senha})}
+                        value={this.state.senha}
+                        />
+                    </View>
+                </View>
+                <View style={styles.botao}>
+                    <TouchableOpacity onPress={this._realizarLogin}>
+                        <Text style={styles.logar}>Efetuar Login</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
@@ -86,14 +94,51 @@ export default class SignIn extends Component{
 
 const styles = StyleSheet.create({
     tudo: {
-        backgroundColor: '#f0f8ff',
+        backgroundColor: '#ADD8E6',
         height: 700,
     },
+    imagemLogo: {
+        alignItems: "center",
+    },
+    logo: {
+        padding: 5,
+        width: 100,
+        height: 100,
+    },
     login: {
+        padding: 50,
         textAlign: "center",
-        fontSize: 20
+        fontSize: 40,
+        color: '#7A101C',
     },
     inputs: {
         alignItems: "center",
     },
+    input1: {
+        margin: 10,
+        // marginTop: 40,
+        width: 300,
+        borderWidth: 1,
+    },
+    input2: {
+        margin: 10,
+        width: 300,
+        borderWidth: 1,
+    },
+    botao: {
+        alignItems: "center",
+    },
+    logar: {
+        textAlign: "center",
+        margin: 10,
+        fontSize: 20,
+        padding: 9,
+        borderRadius: 4,
+        borderWidth: 1,
+        borderColor: "black",
+        backgroundColor: "#7A101C",
+        width: 150,
+        height: 50,
+        color: "white"
+    }
 })
