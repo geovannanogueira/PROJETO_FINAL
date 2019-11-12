@@ -20,7 +20,21 @@ const NavegacaoL = createBottomTabNavigator({
     Lancamento: {
         screen: LancamentoScreen,
     },
-})
+},
+    {
+        initialRouteName: 'Lancamento',
+        tabBarOptions: {
+            showIcon: true,
+            showLabel: false,
+            inactiveBackgroundColor: '#7A101C',
+            activeBackgroundColor: '#7A101C',
+            style: {
+                width: '100%',
+                height: 50,
+            },
+        },
+    }
+);
 
 export default createAppContainer(
     createSwitchNavigator(
