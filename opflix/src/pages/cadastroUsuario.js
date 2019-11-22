@@ -1,58 +1,47 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    StyleSheet,
-    Image,
-    AsyncStorage
-} from 'react-native'
+import { View, Text,TextInput, Image, StyleSheet,TouchableOpacity} from 'react-native';
 
-export default class SignIn extends Component{
+// import { Container } from './styles';
 
-    static navigationOptions = {
-        header: null,
-    };
+export default class CadastroUsuario extends Component {
 
     constructor() {
         super();
         this.state = {
-            email: "erick@gmail.com" ,
-            senha: "123456"                                                                                                                                                                                                                                                                                                                                                                                           
-        };
+            nome: null,
+            email: null,
+            senha: null
+        }
     }
 
-    _realizarLogin = async () => {
-        await fetch("http://192.168.3.14:5000/api/login", {
+    static navigationOptions = {
+        header:null
+    } 
+
+    _realizarCadastro = async () => {
+        await fetch("http://192.168.3.14:5000/api/usuarios", {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                nome: this.state.nome,
                 email: this.state.email,
                 senha: this.state.senha
             }),
         })
-        .then(resposta => resposta.json())
-        .then(data => this._irParaHome(data.token))
-        .catch(erro => console.warn(erro));
+            .then(resposta => resposta.json())
+            .then(data => {
+                console.warn(data)
+                this.props.navigation.navigate('AuthStack')
+            })
+            .catch(erro => console.warn(erro));
     }
 
-    _irParaHome = async tokenAReceber => {
-        if(tokenAReceber != null){
-            try {
-                await AsyncStorage.setItem('@opflix:token', tokenAReceber);
-                this.props.navigation.navigate("NavegacaoL");
-            } catch (error) {
-                console.warn(error)
-            }
-        }
-    }
 
-    render(){
+    render() {
         return (
             <View style={styles.tudo}>
                 <View style={styles.imagemLogo}>
@@ -61,11 +50,19 @@ export default class SignIn extends Component{
                     source={require('../img/vermelho.png')}
                     />
                 </View>
-                <View style={styles.viewLogin}>
-                    <Text style={styles.login}>Login</Text>
+                <View style={styles.viewCadastro}>
+                    <Text style={styles.cadastro}>Cadastro</Text>
                 </View>
                 <View style={styles.inputs}>
-                    <View style={styles.input1}>
+                <View style={styles.input1}>
+                        <TextInput 
+                        style={styles.nome}
+                        placeholder="Nome"
+                        onChangeText={nome => this.setState({nome})}
+                        value={this.state.nome}
+                        />
+                    </View>
+                    <View style={styles.input2}>
                         <TextInput
                         style={styles.email}
                         placeholder="Email"
@@ -73,7 +70,7 @@ export default class SignIn extends Component{
                         value={this.state.email}
                         />
                     </View>
-                    <View style={styles.input2}>
+                    <View style={styles.input3}>
                         <TextInput 
                         style={styles.senha}
                         placeholder="Senha"
@@ -83,22 +80,19 @@ export default class SignIn extends Component{
                     </View>
                 </View>
                 <View style={styles.botao}>
-                    <TouchableOpacity onPress={this._realizarLogin}>
-                        <Text style={styles.logar}>Efetuar Login</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate("Cadastro")}>
-                        <Text style={styles.cadastro}>Cadastre-se</Text>
+                    <TouchableOpacity onPress={() => this._realizarCadastro}>
+                        <Text style={styles.cadastrar}>Concluir Cadastro</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-        );
+    );
     }
 }
 
 const styles = StyleSheet.create({
     tudo: {
         backgroundColor: '#ADD8E6',
-        height: 700,
+        height: "100%",
     },
     imagemLogo: {
         alignItems: "center",
@@ -108,7 +102,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
     },
-    login: {
+    cadastro: {
         padding: 50,
         textAlign: "center",
         fontSize: 40,
@@ -128,10 +122,15 @@ const styles = StyleSheet.create({
         width: 300,
         borderWidth: 1,
     },
+    input3: {
+        margin: 10,
+        width: 300,
+        borderWidth: 1,
+    },
     botao: {
         alignItems: "center",
     },
-    logar: {
+    cadastrar: {
         textAlign: "center",
         margin: 10,
         fontSize: 20,
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "black",
         backgroundColor: "#7A101C",
-        width: 150,
+        width: 250,
         height: 50,
         color: "white"
     }

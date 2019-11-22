@@ -9,6 +9,8 @@ import {
 import { createStackNavigator } from 'react-navigation-stack';
 import SignScreen from './pages/signin.js'
 import LancamentoScreen from './pages/lancamentos'
+import ProfileScreen from './pages/profile'
+import Cadastro from './pages/cadastroUsuario'
 
 // criar uma navegacao para lancamentos
 
@@ -16,10 +18,18 @@ const AuthStack = createStackNavigator({
     Sign: { screen: SignScreen },
 });
 
+
+const CadastroStack = createStackNavigator({
+    Cadastro
+})
+
 const NavegacaoL = createBottomTabNavigator({
     Lancamento: {
         screen: LancamentoScreen,
     },
+    Profile: {
+        screen: ProfileScreen
+    }
 },
     {
         initialRouteName: 'Lancamento',
@@ -40,7 +50,8 @@ export default createAppContainer(
     createSwitchNavigator(
         {
             NavegacaoL,
-            AuthStack
+            AuthStack,
+            CadastroStack
         },
         {
             initialRouteName: "AuthStack"
