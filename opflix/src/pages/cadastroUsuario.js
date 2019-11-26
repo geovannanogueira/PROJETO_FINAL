@@ -80,7 +80,7 @@ export default class CadastroUsuario extends Component {
                     </View>
                 </View>
                 <View style={styles.botao}>
-                    <TouchableOpacity onPress={() => this._realizarCadastro}>
+                    <TouchableOpacity onPress={this._realizarCadastro}>
                         <Text style={styles.cadastrar}>Concluir Cadastro</Text>
                     </TouchableOpacity>
                 </View>
